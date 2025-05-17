@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 
-export const JourneyPicker = ({ onJourneyChange }) => (
+/*
+Upravte funkci handleSubmit tak, aby do konzole vypsala všechny tři stavy. Vyzkoušejte, že výběrem stavu v selectu se změní stav – po kliknutí na tlačítko se do konzole vypíše změněný stav. Tím, že si dočasně změníte výchozí hodnotu v useState('') na některou z hodnot (atribut value) v <option> můžete ověřit, že funguje správně nastavení výchozího stavu selectu.
+*/
+export const JourneyPicker = ({ onJourneyChange }) => {
+  const [fromCity, setFromCity] = useState("");
+  const [toCity, setToCity] = useState("");
+  const [date, setDate] = useState("");
+
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Odesílám formulář s cestou")
+    console.log(fromCity)
+    console.log(toCity)
+    console.log(date)
+  }
+
+  return(
   <div className="journey-picker container">
     <h2 className="journey-picker__head">Kam chcete jet?</h2>
     <div className="journey-picker__body">
-      <form className="journey-picker__form">
+      <form className="journey-picker__form" onSubmit={handleSubmit}>
         <label>
           <div className="journey-picker__label">Odkud:</div>
-          <select>
+          <select value={fromCity} onChange={(e) => setFromCity(e.target.value)}>
             <option value="">Vyberte</option>
             <option value="mesto01">Město 01</option>
             <option value="mesto02">Město 02</option>
@@ -19,7 +36,7 @@ export const JourneyPicker = ({ onJourneyChange }) => (
         </label>
         <label>
           <div className="journey-picker__label">Kam:</div>
-          <select>
+          <select value={toCity} onChange={(e) => setToCity(e.target.value)}>
             <option value="">Vyberte</option>
             <option value="mesto01">Město 01</option>
             <option value="mesto02">Město 02</option>
@@ -30,7 +47,7 @@ export const JourneyPicker = ({ onJourneyChange }) => (
         </label>
         <label>
           <div className="journey-picker__label">Datum:</div>
-          <select>
+          <select value={date} onChange={(e) => setDate(e.target.value)}>
             <option value="">Vyberte</option>
             <option value="datum01">Datum 01</option>
             <option value="datum02">Datum 02</option>
@@ -51,8 +68,5 @@ export const JourneyPicker = ({ onJourneyChange }) => (
       <img className="journey-picker__map" src="/map.svg" />
     </div>
   </div>
-);
+)};
 
-/*
-V komponentě JourneyPicker si připravte funkci handleSubmit(event), která se bude volat při odeslání formuláře. Ošetřete, aby prohlížeč sám neodesílal formulář a zatím si ve funkci jen vypište do konzole text 'Odesílám formulář s cestou'.
-*/
