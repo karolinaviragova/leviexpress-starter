@@ -2,20 +2,48 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 
 /*
-Upravte funkci handleSubmit tak, aby do konzole vypsala všechny tři stavy. Vyzkoušejte, že výběrem stavu v selectu se změní stav – po kliknutí na tlačítko se do konzole vypíše změněný stav. Tím, že si dočasně změníte výchozí hodnotu v useState('') na některou z hodnot (atribut value) v <option> můžete ověřit, že funguje správně nastavení výchozího stavu selectu.
+Do hlavní komponenty JourneyPicker přidejte useEffect, který se bude volat při prvním zobrazení komponenty. Přesuňte do něj nastavení stavu cities – naše dvě testovací města. Výchozí stav pro cities tedy bude prázdné pole, teprve useEffect nastaví seznam měst na Prahu a Brno. Ověřte v prohlížeči, že se v selectech stále zobrazují obě města. Dejte pozor na to, aby se efekt volal opravdu jen při prvním zobrazení komponenty. Můžete si to ověřit pomocným výpisem do konzole prohlížeče, který se musí objevit jen jednou – když budete překlikávat na jiná města, výpis už se nebude opakovat.
 */
+export const CityOptions = ({cities}) => {
+  return(
+    <>
+
+    <option value="">Vyberte</option>
+    {cities.map((city) => (
+      <option key={city.code} value={city.code} >{city.name}</option>
+    ))}
+    </>
+  )
+}
+
 export const JourneyPicker = ({ onJourneyChange }) => {
   const [fromCity, setFromCity] = useState("");
   const [toCity, setToCity] = useState("");
   const [date, setDate] = useState("");
+  const [cities, setCities] = useState([]);
 
-  
+  /*
+  useEffect(() => {setCities(
+    [{ name: 'Praha', code: 'CZ-PRG' },
+    { name: 'Brno', code: 'CZ-BRQ' }]
+  )}, [])
+  */
+  useEffect(() => {
+    const fetchCity = async () => {
+      const response = await fetch(`https://apps.kodim.cz/daweb/leviexpress/api/cities`);
+      const responseData = await response.json();
+      setCities(responseData.results)
+    }
+    fetchCity();
+  }, [])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Odesílám formulář s cestou")
     console.log(fromCity)
     console.log(toCity)
     console.log(date)
+    console.log(cities[0].name)
   }
 
   return(
@@ -26,23 +54,13 @@ export const JourneyPicker = ({ onJourneyChange }) => {
         <label>
           <div className="journey-picker__label">Odkud:</div>
           <select value={fromCity} onChange={(e) => setFromCity(e.target.value)}>
-            <option value="">Vyberte</option>
-            <option value="mesto01">Město 01</option>
-            <option value="mesto02">Město 02</option>
-            <option value="mesto03">Město 03</option>
-            <option value="mesto04">Město 04</option>
-            <option value="mesto05">Město 05</option>
+            <CityOptions cities={cities}/>
           </select>
         </label>
         <label>
           <div className="journey-picker__label">Kam:</div>
           <select value={toCity} onChange={(e) => setToCity(e.target.value)}>
-            <option value="">Vyberte</option>
-            <option value="mesto01">Město 01</option>
-            <option value="mesto02">Město 02</option>
-            <option value="mesto03">Město 03</option>
-            <option value="mesto04">Město 04</option>
-            <option value="mesto05">Město 05</option>
+            <CityOptions cities={cities}/>
           </select>
         </label>
         <label>
