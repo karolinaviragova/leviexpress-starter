@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { useNavigate } from "react-router";
 import { SelectedSeat } from '../../components/SelectedSeat/SelectedSeat';
 
-/*
-Vložte do komponenty HomePage oddíl s tlačítkem „Rezervovat" (zkopírujte potřebný kód z dodaného designu). Stále v komponentě HomePage vytvořte funkci handleBuy a zařiďte, aby byla tato funkce volána při kliknutí na tlačítko „Rezervovat". Ve funkci si zatím můžete vypsat nějakou zprávu do konzole (třeba 'Funguju!').
-*/
 export const HomePage = () => {
   const [journey, setJourney] = useState(null);
 
