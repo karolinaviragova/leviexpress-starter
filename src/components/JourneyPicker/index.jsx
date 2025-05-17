@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 
-/*
-Podobně jako CityOptions získává seznam měst v property cities, bude i DatesOptions získávat seznam termínů v property dates. V elementech <option> (s výjimkou prvního ručně vloženého s textem „Vyberte“) požijte jako value a key hodnotu dateBasic a hodnotu dateCs použijte jako textový obsah.
-*/
 export const CityOptions = ({cities}) => {
   return(
     <>
@@ -25,12 +22,14 @@ export const DatesOptions = ({dates}) => {
     </>
   )
 }
+
 export const JourneyPicker = ({ onJourneyChange }) => {
   const [fromCity, setFromCity] = useState("");
   const [toCity, setToCity] = useState("");
   const [date, setDate] = useState("");
   const [cities, setCities] = useState([]);
   const [dates, setDates] = useState([]);
+  const isFormValid = fromCity && toCity && date;
 
   useEffect(() => {
     const fetchCity = async () => {
@@ -46,14 +45,15 @@ export const JourneyPicker = ({ onJourneyChange }) => {
     }
     fetchDate()
   }, [])
+/*
+Ve funkci handleSubmit v komponentě JourneyPicker nyní vypisujete nalezená spojení jen do konzole prohlížeče. Tento výpis nahraďte voláním funkce uložené v property onJourneyChange, které jako parametr předáte data získaná z volání API pod klíčem results.
 
-  const handleSubmit = (e) => {
+*/
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Odesílám formulář s cestou")
-    console.log(fromCity)
-    console.log(toCity)
-    console.log(date)
-    console.log(cities[0].name)
+    const response = await fetch(`https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`);
+    const responseData = await response.json();
+    onJourneyChange(responseData.results);
   }
 
   return(
@@ -83,6 +83,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
           <button 
             className="btn" 
             type="submit"
+            disabled={!isFormValid}
           > 
             Vyhledat spoj
           </button>
