@@ -52,3 +52,7 @@ export const JourneyPicker = ({ onJourneyChange }) => (
     </div>
   </div>
 );
+
+/*
+V komponentě JourneyPicker si připravte funkci handleSubmit(event), která se bude volat při odeslání formuláře. Ošetřete, aby prohlížeč sám neodesílal formulář a zatím si ve funkci jen vypište do konzole text 'Odesílám formulář s cestou'.
+*/
