@@ -1,6 +1,7 @@
 import { JourneyPicker } from '../../components/JourneyPicker';
 import { JourneyDetail } from '../../components/JourneyDetail/JourneyDetail';
 import { useState } from 'react';
+import { SelectedSeat } from '../../components/SelectedSeat/SelectedSeat';
 
 export const HomePage = () => {
 
@@ -15,6 +16,7 @@ export const HomePage = () => {
     <main>
       <JourneyPicker onJourneyChange={handleJourneyChange}/>
       {journey && <JourneyDetail journey={journey}/>}
+      {journey && <SelectedSeat number={journey.autoSeat}/>}
     </main>
   );
 };
