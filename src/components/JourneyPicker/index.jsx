@@ -45,10 +45,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
     }
     fetchDate()
   }, [])
-/*
-Ve funkci handleSubmit v komponentě JourneyPicker nyní vypisujete nalezená spojení jen do konzole prohlížeče. Tento výpis nahraďte voláním funkce uložené v property onJourneyChange, které jako parametr předáte data získaná z volání API pod klíčem results.
 
-*/
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch(`https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`);
